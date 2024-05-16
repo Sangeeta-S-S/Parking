@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="container mt-4"><h3>PARKING BAY</h3></div>
+    <div class="top">
+        <div class="container mt-4">
+            <label id="VehicleNo">Vehicle Number </label>
+            <input type="text" name="VehNo" id="VehNo" />
+            <button class="btn btn-primary" onclick="entry()">Entry</button>
+            <div id="fill"></div>
+        </div><br>
+        <div>
+            <div class="container mt-4">
+
+                <select name="Vehicle" id="Vehicle">
+                    <option>--Select--</option>
+                    <!-- <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option> -->
+                </select>
+
+
+
+                <button class="btn btn-primary" onclick="search()">Search</button>
+                <button class="btn btn-primary" onclick="clearAll()">Clear</button>
+                <button class="btn btn-primary" onclick="exit()">Exit</button>
+
+                <!-- <button class="btn btn-primary" onclick="clear()">CLear</button> -->
+            </div>
+        </div><br>
+        <!-- <div></div> -->
+        <div class="container mt-4">
+            <table class="table">
+                <tr>
+                    <!-- <input type="text" id="1"/ -->
+                    <!-- <div class="park1"> -->
+                    <td id="1">
+                        1
+                    </td>
+                    <!-- </div> -->
+                    <!-- <div class="park1"> --> 
+                    <td id="2">
+                        2
+                    </td>
+                    <!-- </div> -->
+
+                    <td id="3">
+                        3
+                    </td>
+                    <td id="4">
+                        4
+                    </td>
+                    <td id="5">
+                        5
+                    </td>
+                </tr>
+
+                <tr>
+                    <td id="10">10</td>
+                    <!-- <select name="" id="">
+                        <option value="" id="tn23">tn23</option>
+                        
+                        <option value="" id="tn90">tn90</option>
+                        <option value="" id=""></option>
+                        <option value="" id=""></option>
+                    </select> -->
+                    <td id="9">9</td>
+                    <td id="8">8</td>
+                    <td id="7">7</td>
+                    <td id="6">6</td>
+                </tr>
+
+
+            </table>
+
+        </div>
+        <div>
+
+            <!-- <select name="Vehicle" id="Vehicle">
+                <option>--Select--</option>
+                <option name="op1"></option>
+                <option></option>
+                <option></option>
+                <option></option>
+                <option></option>
+            </select> -->
+
+        </div>
+    </div>
+    <style>
+        .top {
+            margin-top: 50px;
+        }
+
+        .drop {
+            margin-left: 100px
+        }
+
+        .table {
+            background-color: rgb(41, 189, 41);
+        }
+    </style>
+    <script>
+        var vehicleNumber = ["null", "null", "null", "null", "null", "null", "null", "null", "null", "null"];
+        var addVehicle = ""
+        var dropdownElement = "";
+        function entry() {
+            let VehicleId = document.getElementById('VehNo').value;
+            let searchNumber = document.getElementById('Vehicle').value;
+
+            for (let idx = 0; idx <= vehicleNumber.length; idx++) {
+                // color();
+                if (idx == 10) {
+                    document.getElementById('fill').innerHTML = "Parking Bay is fill";
+                    break;
+                }
+                else if(VehicleId==""){
+                    document.getElementById('fill').innerHTML = "Please enter the valid number";
+                    break;
+                }
+                else if(vehicleNumber[idx]==VehicleId){
+                    document.getElementById('fill').innerHTML = "Vechicle Number is already exist";
+                    break;
+                    
+                }
+                else if (vehicleNumber[idx] == "null") {
+                    
+                    vehicleNumber[idx] = VehicleId;
+                    console.log(vehicleNumber[idx]);
+
+                    //creating dropdown element
+                    let Dropdrown = document.getElementById("Vehicle");
+                    let optionelement = document.createElement("option");
+                    optionelement.text = VehicleId;
+                    optionelement.id = VehicleId;
+                    Dropdrown.add(optionelement);
+                    // optionelem.textContent = VehicleId;
+                    // optionelem.id = VehicleId
+                    // document.getElementById("Vehicle").appendChild(optionelem)
+                    // Dropdrown.add(optionelem);
+                    //update number in tables
+                    document.getElementById(idx + 1 + "").innerHTML = VehicleId;
+                    document.getElementById(idx + 1 + "").style.backgroundColor = "grey";
+                    resetVehicleNum();
+                    divfill();
+
+                    break;
+                }
+                
+
+            }
+            console.log(vehicleNumber);
+
+
+        }
+        function resetVehicleNum() {
+            document.getElementById('VehNo').value = "";
+
+        }
+        function resetdropdown() {
+            document.getElementById('Vehicle').value = "--Select--";
+
+        }
+        function exit() {
+            let searchNumber = document.getElementById('Vehicle').value;
+            for (let idx = 0; idx < vehicleNumber.length; idx++) {
+                if (searchNumber == vehicleNumber[idx]) {
+                    //update the values in arreay
+                    let remveh = vehicleNumber[idx]
+                    vehicleNumber[idx] = "null";
+                    //remove values from dropdown
+                    let remelem = document.getElementById(remveh + "");
+                    console.log(remelem);
+                    remelem.remove()
+                    document.getElementById(idx + 1 + "").innerHTML = "null";
+                    document.getElementById(idx + 1 + "").style.backgroundColor = "rgb(41, 189, 41)";
+                    resetdropdown();
+
+                    break;
+                }
+
+
+            }
+
+
+            console.log(vehicleNumber)
+        }
+
+        function search() {
+            let searchNumber = document.getElementById('Vehicle').value;
+
+            // console.log(searchNumber);
+            for (let idx = 0; idx < vehicleNumber.length; idx++) {
+                if (searchNumber == vehicleNumber[idx]) {
+                    document.getElementById(idx + 1 + "").innerHTML = idx + 1 + "<br>" + searchNumber;
+                    document.getElementById(idx + 1 + "").style.backgroundColor = "olive";
+                    console.log(idx + 1);
+                    // resetdropdown();
+
+                    return searchNumber;
+                }
+            }
+        }
+        function divfill(){
+                document.getElementById('fill').innerHTML = "";
+
+            }
+        function clearAll() {
+            let searchNumber = document.getElementById('Vehicle').value;
+            for (let idx = 0; idx < vehicleNumber.length; idx++) {
+                if (searchNumber == vehicleNumber[idx]) {
+                    document.getElementById(idx + 1 + "").innerHTML = searchNumber;
+                    document.getElementById(idx + 1 + "").style.backgroundColor = "grey";
+                    resetdropdown();
+
+                    break;
+                }
+
+
+            }
+            
+            // console.log("hello");
+            // for (let idx = 0; idx < vehicleNumber.length; idx++) {
+            //     console.log(document.getElementById(idx + 1 + "").value);
+            //     if (document.getElementById(idx + 1 + "").innerHTML == (idx + 1 + "" + vehicleNumber[idx])) {
+            //         document.getElementById(idx + 1 + "").innerHTML = vehicleNumber[idx];
+            //         document.getElementById(idx + 1 + "").style.backgroundColor = "gery";
+            //         console.log(document.getElementById(idx + 1 + "").innerHTML = vehicleNumber[idx]);
+            //         break;
+            //     }
+            // }
+
+        }
+
+        // console.log(search());
+
+
+
+
+    </script>
+
+</body>
+
+</html>
